@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 
+// App controller
+import { AppController } from './app.controller';
+
 // Feature modules
 import { ShipmentsModule } from './modules/shipments/shipments.module';
 import { CompaniesModule } from './modules/companies/companies.module';
@@ -11,6 +14,7 @@ import { UsersModule } from './modules/users/users.module';
 import { SearchModule } from './modules/search/search.module';
 
 @Module({
+  controllers: [AppController],
   imports: [
     // Environment configuration
     ConfigModule.forRoot({
