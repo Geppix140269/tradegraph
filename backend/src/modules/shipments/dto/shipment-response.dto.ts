@@ -1,30 +1,34 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
- * Shipment Response DTO
- *
- * Swagger-documented response type for shipment search results.
+ * Aggregations DTO - defined first as it's referenced by ShipmentResponseDto
  */
-export class ShipmentResponseDto {
-  @ApiProperty({ description: 'Array of shipment records' })
-  items: ShipmentDto[];
+export class AggregationsDto {
+  @ApiProperty({ type: [Object] })
+  byOriginCountry: { key: string; label: string; count: number }[];
 
-  @ApiProperty({ description: 'Total matching records' })
-  total: number;
+  @ApiProperty({ type: [Object] })
+  byDestinationCountry: { key: string; label: string; count: number }[];
 
-  @ApiProperty({ description: 'Current page number' })
-  page: number;
+  @ApiProperty({ type: [Object] })
+  byHsChapter: { key: string; label: string; count: number }[];
 
-  @ApiProperty({ description: 'Results per page' })
-  pageSize: number;
+  @ApiProperty({ type: [Object] })
+  byTransportMode: { key: string; label: string; count: number }[];
 
-  @ApiProperty({ description: 'Total pages available' })
-  totalPages: number;
+  @ApiProperty({ type: [Object] })
+  byCarrier: { key: string; label: string; count: number }[];
 
-  @ApiProperty({ description: 'Aggregations for faceted filtering' })
-  aggregations: AggregationsDto;
+  @ApiProperty()
+  valueRange: { min: number; max: number; avg: number };
+
+  @ApiProperty()
+  quantityRange: { min: number; max: number; avg: number };
 }
 
+/**
+ * Shipment DTO
+ */
 export class ShipmentDto {
   @ApiProperty()
   id: string;
@@ -75,25 +79,27 @@ export class ShipmentDto {
   shipmentDate: string;
 }
 
-export class AggregationsDto {
-  @ApiProperty({ type: [Object] })
-  byOriginCountry: { key: string; label: string; count: number }[];
+/**
+ * Shipment Response DTO
+ *
+ * Swagger-documented response type for shipment search results.
+ */
+export class ShipmentResponseDto {
+  @ApiProperty({ description: 'Array of shipment records', type: [ShipmentDto] })
+  items: ShipmentDto[];
 
-  @ApiProperty({ type: [Object] })
-  byDestinationCountry: { key: string; label: string; count: number }[];
+  @ApiProperty({ description: 'Total matching records' })
+  total: number;
 
-  @ApiProperty({ type: [Object] })
-  byHsChapter: { key: string; label: string; count: number }[];
+  @ApiProperty({ description: 'Current page number' })
+  page: number;
 
-  @ApiProperty({ type: [Object] })
-  byTransportMode: { key: string; label: string; count: number }[];
+  @ApiProperty({ description: 'Results per page' })
+  pageSize: number;
 
-  @ApiProperty({ type: [Object] })
-  byCarrier: { key: string; label: string; count: number }[];
+  @ApiProperty({ description: 'Total pages available' })
+  totalPages: number;
 
-  @ApiProperty()
-  valueRange: { min: number; max: number; avg: number };
-
-  @ApiProperty()
-  quantityRange: { min: number; max: number; avg: number };
+  @ApiProperty({ description: 'Aggregations for faceted filtering', type: AggregationsDto })
+  aggregations: AggregationsDto;
 }
