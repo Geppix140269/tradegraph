@@ -1,0 +1,14 @@
+[build]
+  # Directory where the frontend code is located
+  base = "frontend"
+  # Build command for Next.js
+  command = "npm run build"
+  # Output directory for Next.js static export
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Next.js requires the Next.js runtime plugin
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
